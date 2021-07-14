@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">FordHackathon</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="GoogleAPIKey">AIzaSyDMg3b4aByb4RcbZM8a0siyx0z31IHjDT8</string>
+    <string name="vehicleId">8a7f9fa878849d8a0179579d2f26043a</string>
 </resources>

@@ -6,13 +6,43 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
+    <Button
+        android:id="@+id/btnSettings"
+        android:layout_width="117dp"
+        android:layout_height="116dp"
+        android:layout_marginStart="52dp"
+        android:layout_marginTop="336dp"
+        android:text="Settings"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <Button
+        android:id="@+id/btnBattery"
+        android:layout_width="143dp"
+        android:layout_height="108dp"
+        android:layout_marginTop="64dp"
+        android:layout_marginEnd="50dp"
+        android:text="Battery"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnClimate" />
+
+    <Button
+        android:id="@+id/btnClimate"
+        android:layout_width="161dp"
+        android:layout_height="115dp"
+        android:layout_marginTop="159dp"
+        android:layout_marginEnd="43dp"
+        android:text="Climate"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/btnStartCar"
+        android:layout_width="123dp"
+        android:layout_height="116dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="158dp"
+        android:text="Start Car"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

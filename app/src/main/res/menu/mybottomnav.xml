@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/engineStart"
+        android:title="Engine"
+        app:showAsAction="always"
+        />
+
+    <item
+        android:id="@+id/PersonOne"
+        android:title="User One"
+        app:showAsAction="always"
+        android:icon="@drawable/randomperson"
+        />
+
+    <item
+        android:id="@+id/PersonTwo"
+        android:title="User Two"
+        android:icon="@drawable/randomperson"
+        app:showAsAction="always" />
+
+</menu>
