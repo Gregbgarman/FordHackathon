@@ -11,7 +11,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -22,16 +21,12 @@ import com.codepath.asynchttpclient.RequestHeaders;
 import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
 import com.example.fordhackathon.activities.BatteryActivity;
 import com.example.fordhackathon.activities.ClimateActivity;
-import com.example.fordhackathon.activities.StartEngineActivity;
 
 import org.json.JSONObject;
 
 import okhttp3.Headers;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener  {
-
-    //todo: inside temp needs to be viewable from main screen, add comments to code, use ford api, UI,min/max scale values
-
 
     public static final String FahrenheitCode="\u2109";
     public static final String CelsiusCode="\u2103";
@@ -42,7 +37,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public static final String TemperatureAPIUrl="https://af61d91cbb8d.ngrok.io/climate/temperature";
     public static final String BatteryAPIURL="https://af61d91cbb8d.ngrok.io/charging/status";
     public static String FordAPIUrl="https://api.mps.ford.com/api/fordconnect/vehicles/v1/8a7f9fa878849d8a0179579d2f26043a";
-
 
     public static int BatteryPercentage;
     private CardView CVStartCar,CVClimate,CVBattery;
@@ -68,9 +62,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Glide.with(this).load(R.drawable.parkingsymbol).into(ivParkingSign);
 
         CurrentScale=FahrenheitCode;        //defaulting to fahrenheit when program first starts
-        QueryTemperatures();        //Querying data now so mainactivity acts more like a viewmodel
+        QueryTemperatures();                //Querying data now so mainactivity acts more like a viewmodel
         EngineRunning=false;
-        NewTempSet=false;
+        NewTempSet=false;                   //more default values
         BatteryPercentage=80;
         tvBatteryCharge.setText(BatteryPercentage+"%");
 
@@ -79,7 +73,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onResume() {
         super.onResume();
-        if (NewTempSet==true){
+        if (NewTempSet==true){                  //boolean set to true after change temperature setting in climate controls
           MainActivity.BatteryPercentage=23;
           BatteryNeedsCharging=true;
           tvBatteryCharge.setText("23%");
@@ -137,7 +131,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
-
     @Override
     public void onClick(View v) {       //events when clicking buttons
         switch (v.getId()){
@@ -155,13 +148,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
-    private void QueryFordApi(){
+    private void QueryFordApi(){        //querying for API to get ignition status and miles to E
 
         AsyncHttpClient asyncHttpClient=new AsyncHttpClient();
         RequestHeaders requestHeaders=new RequestHeaders();
         requestHeaders.put("Application-Id","afdc085b-377a-4351-b23e-5e1d35fb3700");
         requestHeaders.put("api-version", "2020-06-01");
-        requestHeaders.put("Authorization", "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6IlMxUEZhdzdkR2s3bHNFQmEzUjVWMnRLSzVYYnNIWEJsemFXZGhjNUVNdW8ifQ.eyJpc3MiOiJodHRwczovL2RhaDJ2YjJjcHJvZC5iMmNsb2dpbi5jb20vOTE0ZDg4YjEtMzUyMy00YmY2LTliZTQtMWI5NmI0ZjZmOTE5L3YyLjAvIiwiZXhwIjoxNjI2NDA5NjM5LCJuYmYiOjE2MjY0MDg0MzksImF1ZCI6ImMxZTRjMWEwLTI4NzgtNGU2Zi1hMzA4LTgzNmIzNDQ3NGVhOSIsImxvY2FsZSI6ImVuIiwiaWRwIjoiYjJjX0RwSzFPQW44ZFEiLCJtdG1JZCI6IjRmYWQyMzM4LTliMTQtNDIxNi05YWM0LWYwOTI0NGZjZjllZiIsInVzZXJHdWlkIjoidmE4ODFJako1aW5RelhLOUFKUTk4SXk4UTVBbVloWEhlYlg5azNuNk82QUpwYndsVm1PWG1KekoxbklaSFFhUyIsInN1YiI6IjcwMGJlMzhiLTI5ZmItNDliMy1iNDk2LWI1NjMwNTI2NDY0YyIsIm5vbmNlIjoiMTIzNDU2Iiwic2NwIjoiYWNjZXNzIiwiYXpwIjoiMzA5OTAwNjItOTYxOC00MGUxLWEyN2ItN2M2YmNiMjM2NThhIiwidmVyIjoiMS4wIiwiaWF0IjoxNjI2NDA4NDM5fQ.Y6PywrcIgv3eVAMdaAYwzbs_LxxzStEbCJfIM8GDngIj2zVZ5dHuL6mRc6ltLhfQEX0yaIPqBo3dAKA3DMIBBf0wFmjNeGaawZxOhWDjti5MIyDY3mJFZhnKQq50YF-AhZaDpiM5lIxdlFRpZHww5oEYwWQFpe7lfSnk4DJA8WBiGJy0U_ffn_od8r6Tx53PheoJFRwPt24VcRBxzzFT52s8JWdeZ4QCdwzbIVU82hGIqNPBHPrCEiGRNnvDWzVPf_VoqzwiqUim9RG3NVSX8V3d_047ekcyvAq97FUZPMN8ixi9MwgeOaq67w67-x8nCSYj73tW6fk-dEkXYOrxgg");
+        requestHeaders.put("Authorization", "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6IlMxUEZhdzdkR2s3bHNFQmEzUjVWMnRLSzVYYnNIWEJsemFXZGhjNUVNdW8ifQ.eyJpc3MiOiJodHRwczovL2RhaDJ2YjJjcHJvZC5iMmNsb2dpbi5jb20vOTE0ZDg4YjEtMzUyMy00YmY2LTliZTQtMWI5NmI0ZjZmOTE5L3YyLjAvIiwiZXhwIjoxNjI2NDU2NDQ3LCJuYmYiOjE2MjY0NTUyNDcsImF1ZCI6ImMxZTRjMWEwLTI4NzgtNGU2Zi1hMzA4LTgzNmIzNDQ3NGVhOSIsImxvY2FsZSI6ImVuIiwiaWRwIjoiYjJjX0RwSzFPQW44ZFEiLCJtdG1JZCI6IjRmYWQyMzM4LTliMTQtNDIxNi05YWM0LWYwOTI0NGZjZjllZiIsInVzZXJHdWlkIjoidmE4ODFJako1aW5RelhLOUFKUTk4SXk4UTVBbVloWEhlYlg5azNuNk82QUpwYndsVm1PWG1KekoxbklaSFFhUyIsInN1YiI6IjcwMGJlMzhiLTI5ZmItNDliMy1iNDk2LWI1NjMwNTI2NDY0YyIsIm5vbmNlIjoiMTIzNDU2Iiwic2NwIjoiYWNjZXNzIiwiYXpwIjoiMzA5OTAwNjItOTYxOC00MGUxLWEyN2ItN2M2YmNiMjM2NThhIiwidmVyIjoiMS4wIiwiaWF0IjoxNjI2NDU1MjQ3fQ.d7xm92go9DA1SSSu6Xi0qRmQjcApJO3SR0aqpDI76Z0lRYhMM2Pan0SXeBcUb9NEAg9eJbifZMmMWwwv7i7M8BaELn2YDhg5BGD4fHEY6NibOIDHSnuAHzYee-vhLojEc4MSQ1ssWU3HVeJx9TuH1GwO0ZB49QmSvRqmbk3_lGlTeEdslpuNX_lYGrluZGlxoPZDLbdPrXHxAFN1W9Lqpj488_G-W4AbJ294zleYGVjy0YwOLk7w4BObWk5tO4OjTglnqeXDFd8eNkK7gaSF6-DaNvjQRfzhGxmp5-hB9XU3o0XfHrHw4B4Eu2twFp04hVNfMbool-950Y7kwWvE1w");
 
         asyncHttpClient.get(FordAPIUrl, requestHeaders,null, new JsonHttpResponseHandler() {
             @Override
@@ -178,7 +171,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     e.printStackTrace();
                 }
 
-
             }
 
             @Override
@@ -190,7 +182,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
-    private void ShowMessage(int Miles){
+    private void ShowMessage(int Miles){        //displays upon successfully reaching Ford API
+
         AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
 
         builder.setMessage("Ford API Accessed:"+ "\n" +"Car Running and has " + Miles +" Miles To Empty");
@@ -202,7 +195,5 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         });
 
         builder.create().show();
-
     }
-
 }

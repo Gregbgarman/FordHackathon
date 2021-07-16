@@ -68,7 +68,7 @@ public class ClimateActivity extends AppCompatActivity {
             TempSwitch.setChecked(true);
             TempSwitchChecked=true;
         }
-        TempSwitch.setOnClickListener(new View.OnClickListener() {
+        TempSwitch.setOnClickListener(new View.OnClickListener() {          //converting celsius/fahrenheit to the other
             @Override
             public void onClick(View v) {           //convert to celsius
                 if (TempSwitchChecked==false) {
@@ -82,7 +82,7 @@ public class ClimateActivity extends AppCompatActivity {
                     tvSetscale.setText("Fahrenheit");
                     TempSwitchChecked=false;
 
-                }
+                }                                   //repopulating views on screen
                 MainActivity.ConvertScale();
                 tvInsideTemp.setText((int)MainActivity.CurrentTempInside+MainActivity.CurrentScale);
                 tvOutsideTemp.setText((int)MainActivity.CurrentTempOutside+MainActivity.CurrentScale);
@@ -92,7 +92,7 @@ public class ClimateActivity extends AppCompatActivity {
             }
         });
 
-        FrontDefrosterSwitch.setOnClickListener(new View.OnClickListener() {
+        FrontDefrosterSwitch.setOnClickListener(new View.OnClickListener() {    //simply checking/unchecking defroster ON or OFF
             @Override
             public void onClick(View v) {
                 if (FrontDefrosterChecked==false) {
@@ -106,7 +106,7 @@ public class ClimateActivity extends AppCompatActivity {
             }
         });
 
-        RearDefrosterSwitch.setOnClickListener(new View.OnClickListener() {
+        RearDefrosterSwitch.setOnClickListener(new View.OnClickListener() {         //simply checking/unchecking defroster ON or OFF
             @Override
             public void onClick(View v) {
                 if (RearDefrosterChecked==false) {
@@ -120,7 +120,6 @@ public class ClimateActivity extends AppCompatActivity {
             }
         });
 
-
         tvInsideTemp=findViewById(R.id.tvTempInsideCar);
         tvOutsideTemp=findViewById(R.id.tvTempOutsideCar);
         tvOutsideTemp.setText((int)MainActivity.CurrentTempOutside+MainActivity.CurrentScale);
@@ -131,8 +130,7 @@ public class ClimateActivity extends AppCompatActivity {
         RealCurrentTemp=-1;
 
 
-
-        btnSetTemp.setOnClickListener(new View.OnClickListener() {
+        btnSetTemp.setOnClickListener(new View.OnClickListener() {      //user gets pop up when sets new temperature, and live change begins
             @Override
             public void onClick(View v) {
 
@@ -144,7 +142,6 @@ public class ClimateActivity extends AppCompatActivity {
                     public void onClick(DialogInterface dialog, int which) {
                        MainActivity.SetTemperatureInsideCar=SliderValue;
                        PostNewTemperatureSetting();
-
                     }
                 });
 
@@ -174,16 +171,12 @@ public class ClimateActivity extends AppCompatActivity {
             }
         });
 
-
         tvInsideTemp.setText((int)MainActivity.CurrentTempInside+MainActivity.CurrentScale);
-
-
     }
 
-    private void PostNewTemperatureSetting(){
+    private void PostNewTemperatureSetting(){       //when user sets new temperature value, posts to our API
 
         AsyncHttpClient asyncHttpClient=new AsyncHttpClient();
-
         asyncHttpClient.get(MainActivity.TemperatureAPIUrl, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int i, Headers headers, JSON json) {
@@ -191,12 +184,11 @@ public class ClimateActivity extends AppCompatActivity {
                 int NewValue=SliderValue;
 
                 try {
-                    if (MainActivity.CurrentScale.equals(MainActivity.CelsiusCode)){         //if in celsius
+                    if (MainActivity.CurrentScale.equals(MainActivity.CelsiusCode)){         //if in celsius,converting before posting
                         NewValue=((SliderValue*9/5)+32);
                     }
 
                     jsonObject.put("set_temperature_f", NewValue);
-
 
                 }catch (Exception e){
                         e.printStackTrace();
@@ -213,25 +205,18 @@ public class ClimateActivity extends AppCompatActivity {
                     @Override
                     public void onFailure(int i, Headers headers, String s, Throwable throwable) {
                         Log.e("ClimateActivity","Failed to post new temperature setting");
-
                     }
                 });
-
-
             }
-
             @Override
             public void onFailure(int i, Headers headers, String s, Throwable throwable) {
                 Log.e("ClimateActivity","Error retrieving API in GET method");
             }
         });
 
-
-
-
     }
 
-    private void BeginLiveTempChange(){         //when user sets new temperature, temperature increments/decrements
+    private void BeginLiveTempChange(){         //when user sets new temperature, temperature increments/decrements every 2 seconds
 
         mCountDownTimer = new CountDownTimer(mTimeLeftInMillis, 2000) {
             @Override
@@ -242,7 +227,7 @@ public class ClimateActivity extends AppCompatActivity {
             }
             @Override
             public void onFinish() {
-                //never going to get here
+                //never using
             }
         }.start();
 
@@ -258,7 +243,7 @@ public class ClimateActivity extends AppCompatActivity {
                 JSONObject Object= json.jsonObject;
                 try {
                     if (MainActivity.CurrentScale.equals(MainActivity.FahrenheitCode)) {
-                        RealCurrentTemp = Object.getDouble("current_temperature_f");
+                        RealCurrentTemp = Object.getDouble("current_temperature_f");        //storing value from our API
                     }
                     else if (MainActivity.CurrentScale.equals(MainActivity.CelsiusCode)) {
                         RealCurrentTemp = Object.getDouble("current_temperature_c");
@@ -267,9 +252,9 @@ public class ClimateActivity extends AppCompatActivity {
                     MainActivity.CurrentTempInside=RealCurrentTemp;
                    tvInsideTemp.setText((int)RealCurrentTemp+MainActivity.CurrentScale);
 
-                    if ((int)RealCurrentTemp==(int)MainActivity.SetTemperatureInsideCar){
+                    if ((int)RealCurrentTemp==(int)MainActivity.SetTemperatureInsideCar){       //when set temperature reached
                         mCountDownTimer.cancel();
-                        ShowSnackBar();
+                        Snackbar.make(mylayout,"Set Temperature Reached",Snackbar.LENGTH_LONG).show();
                         return;
                     }
                 }catch (Exception e){
@@ -286,10 +271,4 @@ public class ClimateActivity extends AppCompatActivity {
 
     }
 
-    private void ShowSnackBar(){
-        Snackbar.make(mylayout,"Set Temperature Reached",Snackbar.LENGTH_LONG).show();
-
-
-
-    }
 }

@@ -11,13 +11,10 @@ import android.os.CountDownTimer;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
-import android.widget.AnalogClock;
-import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Switch;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
 import com.codepath.asynchttpclient.AsyncHttpClient;
 import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
 import com.example.fordhackathon.MainActivity;
@@ -30,14 +27,13 @@ import okhttp3.Headers;
 
 public class BatteryActivity extends AppCompatActivity {
 
-    private JSONObject jsonObject;
     private ProgressBar BatteryBar;
     private TextView tvTime,tvChargeStatus,tvChargeWithBar,tvResume;
     private String Message;
     private static final long START_TIME_IN_MILLIS = 900000;
     private CountDownTimer mCountDownTimer;
     private long mTimeLeftInMillis = START_TIME_IN_MILLIS;
-    private int counter=0,ClockMinutes;
+    private int ClockMinutes;
     private boolean CanResumeCharging;
     private CardView cvCharge;
     private Switch PeakSwitch;
@@ -64,10 +60,8 @@ public class BatteryActivity extends AppCompatActivity {
         BatteryBar.setScaleY(5f);
         BatteryBar.setProgress(MainActivity.BatteryPercentage);
 
-
-
-        if (MainActivity.BatteryNeedsCharging==true) {
-            SetBatteryAPI();
+        if (MainActivity.BatteryNeedsCharging==true) {          //set to true after setting new temperature value
+            SetBatteryAPI();                                    //done this way for creation of simulation-nothing functional
             tvChargeStatus.setText("Charging");
         }
         else{
@@ -75,7 +69,7 @@ public class BatteryActivity extends AppCompatActivity {
             tvChargeWithBar.setText(MainActivity.BatteryPercentage+"%");
         }
 
-        cvCharge.setOnClickListener(new View.OnClickListener() {
+        cvCharge.setOnClickListener(new View.OnClickListener() {        //this can be called once battery charge is paused
             @Override
             public void onClick(View v) {
                 if (CanResumeCharging==true){
@@ -88,8 +82,7 @@ public class BatteryActivity extends AppCompatActivity {
         });
     }
 
-
-    private void BeginCountUp(){
+    private void BeginCountUp(){            //every second, battery charge increases, and time increases also
 
         mCountDownTimer = new CountDownTimer(mTimeLeftInMillis, 1000) {
             @Override
@@ -98,7 +91,7 @@ public class BatteryActivity extends AppCompatActivity {
                 if (CanResumeCharging==false) {
                     QueryBatteryAPI();      //Each time this is queried, Battery % increments by 1
                 }
-                else{
+                else{                       //block called when user resumes charging after it stops to wait for peak off hours
                     IncrementClock();
                     MainActivity.BatteryPercentage++;
                     tvChargeWithBar.setText(MainActivity.BatteryPercentage+"%");
@@ -125,10 +118,10 @@ public class BatteryActivity extends AppCompatActivity {
             @Override
             public void onSuccess(int i, Headers headers, JSON json) {
 
-                asyncHttpClient.post(MainActivity.BatteryAPIURL, new JsonHttpResponseHandler() {
-                    @Override
+                asyncHttpClient.post(MainActivity.BatteryAPIURL, new JsonHttpResponseHandler() {        //calling post on the API resets the charge value to
+                    @Override                                                                           //30% so can be shown in our demo
                     public void onSuccess(int i, Headers headers, JSON json) {
-                        JSONObject Object=json.jsonObject;
+                        JSONObject Object=json.jsonObject;              //populating views with values on our Battery API
                         try {
                             Message=Object.getString("status");
                             MainActivity.BatteryPercentage=Object.getInt("current_charge");
@@ -136,7 +129,7 @@ public class BatteryActivity extends AppCompatActivity {
                             BatteryBar.setProgress(MainActivity.BatteryPercentage);
                             IncrementClock();
 
-                            if (MainActivity.BatteryPercentage==30){
+                            if (MainActivity.BatteryPercentage==30){            //our demo threshold value is 30%
                                 MainActivity.BatteryNeedsCharging=false;
                                 ShowMessage();
                                 tvChargeStatus.setText("On Hold");
@@ -153,7 +146,7 @@ public class BatteryActivity extends AppCompatActivity {
 
                     @Override
                     public void onFailure(int i, Headers headers, String s, Throwable throwable) {
-
+                        Log.e("BatteryActivity","Failed to reset battery API");
                     }
                 });
             }
@@ -164,9 +157,7 @@ public class BatteryActivity extends AppCompatActivity {
             }
         });
 
-
     }
-
 
     private void SetBatteryAPI(){
         AsyncHttpClient asyncHttpClient=new AsyncHttpClient();
@@ -198,7 +189,7 @@ public class BatteryActivity extends AppCompatActivity {
         builder.create().show();
     }
 
-    private void IncrementClock(){
+    private void IncrementClock(){      //time increments by 6 minutes with each 1% battery charge
         String AmPm="PM";
         ClockMinutes+=6;
         int hours=ClockMinutes/60;

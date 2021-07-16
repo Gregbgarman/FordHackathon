@@ -15,7 +15,6 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.FordHackathon">
         <activity android:name=".activities.BatteryActivity"></activity>
-        <activity android:name=".activities.StartEngineActivity" />
         <activity android:name=".activities.ClimateActivity" />
         <activity android:name=".maps.MapsActivitySetHome" />
         <activity android:name=".MainActivity">
