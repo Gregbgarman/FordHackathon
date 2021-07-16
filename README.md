@@ -1,9 +1,9 @@
 # FordHackathon
 -------------------------------------------------------------------------------------------------------------------------------
 Team Members:
- Gregory Garman
- Niraj Chaurasia
-Sanjeevram Duraivelu
+- Gregory Garman
+- Niraj Chaurasia
+- Sanjeevram Duraivelu
 
     When coming up with the idea for the hackathon we wanted to solve real issues that people face on a day to day basis. It was important for us to make impactful changes that would either save the user time and money. That is why our App consisted of two key topics, Automated Climate control and Adaptive charging. 
 -------------------------------------------------------------------------------------------------------------------------------
