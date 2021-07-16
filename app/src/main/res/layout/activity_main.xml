@@ -1,48 +1,244 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+
+<ScrollView xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical">
+
+<LinearLayout
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="140dp"
+        app:srcCompat="@drawable/fordedge" />
+
+
+
+
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#EEEEEE"
     tools:context=".MainActivity">
 
-    <Button
-        android:id="@+id/btnSettings"
-        android:layout_width="117dp"
-        android:layout_height="116dp"
-        android:layout_marginStart="52dp"
-        android:layout_marginTop="336dp"
-        android:text="Settings"
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="401dp"
+        android:layout_height="62dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView6"
+        app:srcCompat="@drawable/frame21" />
+
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="13dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="27dp"
+        app:layout_constraintEnd_toStartOf="@+id/CVBattery"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/CVStartCar"
+        app:srcCompat="@drawable/lightframe" />
+
+    <ImageView
+        android:id="@+id/imageView5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="22dp"
+        app:layout_constraintEnd_toStartOf="@+id/imageView8"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView2"
+        app:srcCompat="@drawable/musicframe" />
+
+    <ImageView
+        android:id="@+id/imageView6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="28dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/addressframe" />
+
+    <TextView
+        android:id="@+id/textView5"
+        android:layout_width="64dp"
+        android:layout_height="70dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:fontFamily="@font/hind_vadodara_bold"
+        android:text="Ford Edge"
+        android:textSize="24sp"
+        android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
-        android:id="@+id/btnBattery"
-        android:layout_width="143dp"
-        android:layout_height="108dp"
-        android:layout_marginTop="64dp"
-        android:layout_marginEnd="50dp"
-        android:text="Battery"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnClimate" />
-
-    <Button
-        android:id="@+id/btnClimate"
-        android:layout_width="161dp"
-        android:layout_height="115dp"
-        android:layout_marginTop="159dp"
-        android:layout_marginEnd="43dp"
-        android:text="Climate"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <Button
-        android:id="@+id/btnStartCar"
-        android:layout_width="123dp"
-        android:layout_height="116dp"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="158dp"
-        android:text="Start Car"
+    <androidx.cardview.widget.CardView
+        android:id="@+id/CVStartCar"
+        android:layout_width="180dp"
+        android:layout_height="170dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="27dp"
+        app:cardCornerRadius="15dp"
+        app:layout_constraintEnd_toStartOf="@+id/CVClimate"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/imageView">
+
+        <TextView
+            android:id="@+id/textView6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:fontFamily="@font/hind_vadodara_bold"
+            android:text="Driving"
+            android:textSize="24sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tvDriveState"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="60dp"
+            android:layout_marginTop="40dp"
+            android:text="P"
+            android:textSize="60sp"
+            android:textStyle="bold" />
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="150dp"
+            android:layout_height="40dp"
+
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="125dp"
+            app:cardBackgroundColor="#EEEEEE"
+            app:cardCornerRadius="15dp">
+
+
+            <ImageView
+                android:id="@+id/ivParkingsign"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="5dp"
+                tools:srcCompat="@drawable/parkingsymbol" />
+
+            <TextView
+                android:id="@+id/textView13"
+                android:layout_width="60dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="43dp"
+                android:fontFamily="@font/hind_vadodara_bold"
+                android:text="Parking Brake"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tvParkingBrakeStatus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="110dp"
+                android:layout_marginTop="10dp"
+                android:fontFamily="@font/hind_vadodara_bold"
+                android:text="OFF"
+                android:textSize="18sp" />
+
+
+        </androidx.cardview.widget.CardView>
+
+
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/CVClimate"
+        android:layout_width="180dp"
+        android:layout_height="170dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="12dp"
+        app:cardCornerRadius="15dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView">
+
+        <TextView
+            android:id="@+id/textView9"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:fontFamily="@font/hind_vadodara_bold"
+            android:text="Climate"
+            android:textSize="24sp" />
+
+        <TextView
+            android:id="@+id/tvCurrentTempMain"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="40dp"
+            android:text="86"
+            android:textSize="60sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/textView16"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="120dp"
+            android:fontFamily="@font/hind_vadodara_bold"
+            android:text="Inside Car"
+            android:textSize="24sp" />
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/CVBattery"
+        android:layout_width="180dp"
+        android:layout_height="170dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="8dp"
+        app:cardCornerRadius="15dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/CVClimate">
+
+        <TextView
+            android:id="@+id/textView11"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:fontFamily="@font/hind_vadodara_bold"
+            android:text="Battery"
+            android:textSize="24sp" />
+
+        <TextView
+            android:id="@+id/tvBatteryPercentageHome"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="40dp"
+            android:text="86"
+            android:textSize="60sp"
+            android:textStyle="bold" />
+    </androidx.cardview.widget.CardView>
+
+    <ImageView
+        android:id="@+id/imageView8"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/CVBattery"
+        app:srcCompat="@drawable/summonframe" />
 </androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>
+</ScrollView>

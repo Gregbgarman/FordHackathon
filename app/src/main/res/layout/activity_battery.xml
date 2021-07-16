@@ -6,4 +6,36 @@
     android:layout_height="match_parent"
     tools:context=".activities.BatteryActivity">
 
+    <ProgressBar
+        android:id="@+id/BatteryProgressBar"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="191dp"
+        android:layout_height="49dp"
+        android:layout_marginStart="52dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tvBatteryPercent"
+        android:layout_width="175dp"
+        android:layout_height="49dp"
+        android:layout_marginStart="60dp"
+        android:layout_marginTop="24dp"
+        android:text="20%"
+        android:textAlignment="center"
+        android:textSize="34sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/BatteryProgressBar" />
+
+    <TextView
+        android:id="@+id/textView10"
+        android:layout_width="211dp"
+        android:layout_height="76dp"
+        android:fontFamily="@font/hind_vadodara_bold"
+        android:text="10:00 PM"
+        android:textAlignment="center"
+        android:textSize="34sp"
+        tools:layout_editor_absoluteX="71dp"
+        tools:layout_editor_absoluteY="57dp" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -3,5 +3,7 @@
     <array name="preloaded_fonts" translatable="false">
         <item>@font/alike</item>
         <item>@font/archivo_narrow_bold</item>
+        <item>@font/hind_vadodara_bold</item>
+        <item>@font/hind_vadodara_semibold</item>
     </array>
 </resources>

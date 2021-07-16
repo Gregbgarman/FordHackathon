@@ -2,20 +2,25 @@ package com.example.fordhackathon.activities;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.content.ContextCompat;
 
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.SeekBar;
+import android.widget.Switch;
 import android.widget.TextView;
 
 import com.codepath.asynchttpclient.AsyncHttpClient;
 import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
 import com.example.fordhackathon.MainActivity;
 import com.example.fordhackathon.R;
+import com.google.android.material.snackbar.Snackbar;
 
 import org.json.JSONObject;
 
@@ -23,7 +28,7 @@ import okhttp3.Headers;
 
 public class ClimateActivity extends AppCompatActivity {
 
-    private TextView tvInsideTemp,tvOutsideTemp,tvSliderTemp;
+    private TextView tvInsideTemp,tvOutsideTemp,tvSliderTemp,tvSetscale,tvFrontDefroster,tvRearDefroster;
     private SeekBar TempSeekBar;
     private Button btnSetTemp;
     private int SliderValue;
@@ -31,15 +36,94 @@ public class ClimateActivity extends AppCompatActivity {
     private static final long START_TIME_IN_MILLIS = 900000;
     private CountDownTimer mCountDownTimer;
     private long mTimeLeftInMillis = START_TIME_IN_MILLIS;
-    private int RealCurrentTemp;
+    private double RealCurrentTemp;
+    private Switch TempSwitch,RearDefrosterSwitch,FrontDefrosterSwitch;
+    private boolean TempSwitchChecked,RearDefrosterChecked,FrontDefrosterChecked;
+    private ConstraintLayout mylayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_climate);
+        getSupportActionBar().hide();
+        Window window = getWindow();                   //setting status bar color
+        window.setStatusBarColor(ContextCompat.getColor(this,R.color.AppGray));
+        TempSwitchChecked=false;
+        RearDefrosterChecked=false;
+        FrontDefrosterChecked=false;
+
+        mylayout=findViewById(R.id.CALayout);
+        TempSwitch=findViewById(R.id.TempSwitch);
+        RearDefrosterSwitch=findViewById(R.id.SwitchRearDefroster);
+        FrontDefrosterSwitch=findViewById(R.id.SwitchFrontDefroster);
+        tvSetscale=findViewById(R.id.tvSetScale);
+        tvFrontDefroster=findViewById(R.id.tvFrontDefrosterStatus);
+        tvRearDefroster=findViewById(R.id.tvRearDefrosterStatus);
+
+        if (MainActivity.CurrentScale.equals(MainActivity.FahrenheitCode)) {
+            TempSwitch.setText(MainActivity.FahrenheitCode);
+        }
+        else{
+            TempSwitch.setText(MainActivity.CelsiusCode);
+            TempSwitch.setChecked(true);
+            TempSwitchChecked=true;
+        }
+        TempSwitch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {           //convert to celsius
+                if (TempSwitchChecked==false) {
+                    TempSwitch.setText(MainActivity.CelsiusCode);
+                    tvSetscale.setText("Celsius");
+                    TempSwitchChecked=true;
+
+                }
+                else if (TempSwitchChecked==true){      //convert to fahrenheit
+                    TempSwitch.setText(MainActivity.FahrenheitCode);
+                    tvSetscale.setText("Fahrenheit");
+                    TempSwitchChecked=false;
+
+                }
+                MainActivity.ConvertScale();
+                tvInsideTemp.setText((int)MainActivity.CurrentTempInside+MainActivity.CurrentScale);
+                tvOutsideTemp.setText((int)MainActivity.CurrentTempOutside+MainActivity.CurrentScale);
+                tvSliderTemp.setText((int)MainActivity.SetTemperatureInsideCar+MainActivity.CurrentScale);
+                TempSeekBar.setProgress((int)MainActivity.SetTemperatureInsideCar);
+
+            }
+        });
+
+        FrontDefrosterSwitch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (FrontDefrosterChecked==false) {
+                    tvFrontDefroster.setText("ON");
+                    FrontDefrosterChecked=true;
+                }
+                else if (FrontDefrosterChecked==true){
+                    tvFrontDefroster.setText("OFF");
+                    FrontDefrosterChecked=false;
+                }
+            }
+        });
+
+        RearDefrosterSwitch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (RearDefrosterChecked==false) {
+                    tvRearDefroster.setText("ON");
+                    RearDefrosterChecked=true;
+                }
+                else if (RearDefrosterChecked==true){
+                    tvRearDefroster.setText("OFF");
+                    RearDefrosterChecked=false;
+                }
+            }
+        });
+
+
         tvInsideTemp=findViewById(R.id.tvTempInsideCar);
         tvOutsideTemp=findViewById(R.id.tvTempOutsideCar);
-        tvOutsideTemp.setText(MainActivity.CurrentTempOutside+MainActivity.CurrentScale);
+        tvOutsideTemp.setText((int)MainActivity.CurrentTempOutside+MainActivity.CurrentScale);
 
         tvSliderTemp=findViewById(R.id.tvSlidingTemp);
         TempSeekBar=findViewById(R.id.SeekBarTemp);
@@ -69,8 +153,8 @@ public class ClimateActivity extends AppCompatActivity {
             }
         });
 
-        TempSeekBar.setProgress(MainActivity.SetTemperatureInsideCar);
-        tvSliderTemp.setText(MainActivity.SetTemperatureInsideCar+MainActivity.CurrentScale);       //decide if want default or not
+        TempSeekBar.setProgress((int)MainActivity.SetTemperatureInsideCar);
+        tvSliderTemp.setText((int)MainActivity.SetTemperatureInsideCar+MainActivity.CurrentScale);       //decide if want default or not
 
         TempSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
@@ -81,17 +165,17 @@ public class ClimateActivity extends AppCompatActivity {
 
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {
-
+                //not using
             }
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-
+                //not using
             }
         });
 
 
-        tvInsideTemp.setText(MainActivity.CurrentTempInside+MainActivity.CurrentScale);
+        tvInsideTemp.setText((int)MainActivity.CurrentTempInside+MainActivity.CurrentScale);
 
 
     }
@@ -122,6 +206,7 @@ public class ClimateActivity extends AppCompatActivity {
                     @Override
                     public void onSuccess(int i, Headers headers, JSON json) {
                         Log.i("ClimateActivity","Posted new temperature setting");
+                        MainActivity.NewTempSet=true;
                         BeginLiveTempChange();
                     }
 
@@ -146,12 +231,13 @@ public class ClimateActivity extends AppCompatActivity {
 
     }
 
-    private void BeginLiveTempChange(){
+    private void BeginLiveTempChange(){         //when user sets new temperature, temperature increments/decrements
+
         mCountDownTimer = new CountDownTimer(mTimeLeftInMillis, 2000) {
             @Override
             public void onTick(long millisUntilFinished) {
                 mTimeLeftInMillis = millisUntilFinished;
-                QueryWebApi();      //Each time this is queried, Inside temperature decrements by 1
+                QueryWebApi();      //Each time this is queried, Inside temperature increments/decrements by 1
 
             }
             @Override
@@ -162,25 +248,28 @@ public class ClimateActivity extends AppCompatActivity {
 
     }
 
-    private void QueryWebApi(){
+    private void QueryWebApi(){     //Querying Temperature API changes it's stored current value by 1
+
         AsyncHttpClient asyncHttpClient=new AsyncHttpClient();
 
         asyncHttpClient.get(MainActivity.TemperatureAPIUrl, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int i, Headers headers, JSON json) {
-                JSONObject jsonObject= json.jsonObject;
+                JSONObject Object= json.jsonObject;
                 try {
                     if (MainActivity.CurrentScale.equals(MainActivity.FahrenheitCode)) {
-                        RealCurrentTemp = jsonObject.getInt("current_temperature_f");
+                        RealCurrentTemp = Object.getDouble("current_temperature_f");
                     }
                     else if (MainActivity.CurrentScale.equals(MainActivity.CelsiusCode)) {
-                        RealCurrentTemp = jsonObject.getInt("current_temperature_c");
+                        RealCurrentTemp = Object.getDouble("current_temperature_c");
                     }
 
-                   tvInsideTemp.setText(RealCurrentTemp+MainActivity.CurrentScale);
-                    MainActivity.CurrentTempInside--;
-                    if (RealCurrentTemp==MainActivity.SetTemperatureInsideCar){
+                   tvInsideTemp.setText((int)RealCurrentTemp+MainActivity.CurrentScale);
+
+                    if ((int)RealCurrentTemp==(int)MainActivity.SetTemperatureInsideCar){
+                        MainActivity.CurrentTempInside=MainActivity.SetTemperatureInsideCar;
                         mCountDownTimer.cancel();
+                        ShowSnackBar();
                         return;
                     }
                 }catch (Exception e){
@@ -194,6 +283,11 @@ public class ClimateActivity extends AppCompatActivity {
                 Log.e("ClimateActivity","Failed to Query API for decrementing");
             }
         });
+
+    }
+
+    private void ShowSnackBar(){
+        Snackbar.make(mylayout,"Set Temperature Reached",Snackbar.LENGTH_LONG).show();
 
 
 
