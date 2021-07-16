@@ -1,9 +1,11 @@
 package com.example.fordhackathon;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 import androidx.core.content.ContextCompat;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -12,9 +14,11 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.codepath.asynchttpclient.AsyncHttpClient;
+import com.codepath.asynchttpclient.RequestHeaders;
 import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
 import com.example.fordhackathon.activities.BatteryActivity;
 import com.example.fordhackathon.activities.ClimateActivity;
@@ -37,6 +41,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public static String CurrentScale;
     public static final String TemperatureAPIUrl="https://af61d91cbb8d.ngrok.io/climate/temperature";
     public static final String BatteryAPIURL="https://af61d91cbb8d.ngrok.io/charging/status";
+    public static String FordAPIUrl="https://api.mps.ford.com/api/fordconnect/vehicles/v1/8a7f9fa878849d8a0179579d2f26043a";
+
 
     public static int BatteryPercentage;
     private CardView CVStartCar,CVClimate,CVBattery;
@@ -74,15 +80,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onResume() {
         super.onResume();
         if (NewTempSet==true){
-            //set the textview to equal CurrentTempInside
           MainActivity.BatteryPercentage=23;
           BatteryNeedsCharging=true;
           tvBatteryCharge.setText("23%");
-            NewTempSet=false;
+          NewTempSet=false;
         }
 
         tvCurrentTemp.setText((int)CurrentTempInside+CurrentScale);
-        //could also add something like celsius temp changed-then run convertscale
+        tvBatteryCharge.setText(String.valueOf(BatteryPercentage)+"%");
 
     }
 
@@ -144,9 +149,60 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 startActivity(new Intent(MainActivity.this, BatteryActivity.class));
                 break;
             case R.id.CVStartCar:
-               startActivity(new Intent(MainActivity.this, StartEngineActivity.class));
+               QueryFordApi();
                 break;
 
         }
     }
+
+    private void QueryFordApi(){
+
+        AsyncHttpClient asyncHttpClient=new AsyncHttpClient();
+        RequestHeaders requestHeaders=new RequestHeaders();
+        requestHeaders.put("Application-Id","afdc085b-377a-4351-b23e-5e1d35fb3700");
+        requestHeaders.put("api-version", "2020-06-01");
+        requestHeaders.put("Authorization", "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6IlMxUEZhdzdkR2s3bHNFQmEzUjVWMnRLSzVYYnNIWEJsemFXZGhjNUVNdW8ifQ.eyJpc3MiOiJodHRwczovL2RhaDJ2YjJjcHJvZC5iMmNsb2dpbi5jb20vOTE0ZDg4YjEtMzUyMy00YmY2LTliZTQtMWI5NmI0ZjZmOTE5L3YyLjAvIiwiZXhwIjoxNjI2NDA5NjM5LCJuYmYiOjE2MjY0MDg0MzksImF1ZCI6ImMxZTRjMWEwLTI4NzgtNGU2Zi1hMzA4LTgzNmIzNDQ3NGVhOSIsImxvY2FsZSI6ImVuIiwiaWRwIjoiYjJjX0RwSzFPQW44ZFEiLCJtdG1JZCI6IjRmYWQyMzM4LTliMTQtNDIxNi05YWM0LWYwOTI0NGZjZjllZiIsInVzZXJHdWlkIjoidmE4ODFJako1aW5RelhLOUFKUTk4SXk4UTVBbVloWEhlYlg5azNuNk82QUpwYndsVm1PWG1KekoxbklaSFFhUyIsInN1YiI6IjcwMGJlMzhiLTI5ZmItNDliMy1iNDk2LWI1NjMwNTI2NDY0YyIsIm5vbmNlIjoiMTIzNDU2Iiwic2NwIjoiYWNjZXNzIiwiYXpwIjoiMzA5OTAwNjItOTYxOC00MGUxLWEyN2ItN2M2YmNiMjM2NThhIiwidmVyIjoiMS4wIiwiaWF0IjoxNjI2NDA4NDM5fQ.Y6PywrcIgv3eVAMdaAYwzbs_LxxzStEbCJfIM8GDngIj2zVZ5dHuL6mRc6ltLhfQEX0yaIPqBo3dAKA3DMIBBf0wFmjNeGaawZxOhWDjti5MIyDY3mJFZhnKQq50YF-AhZaDpiM5lIxdlFRpZHww5oEYwWQFpe7lfSnk4DJA8WBiGJy0U_ffn_od8r6Tx53PheoJFRwPt24VcRBxzzFT52s8JWdeZ4QCdwzbIVU82hGIqNPBHPrCEiGRNnvDWzVPf_VoqzwiqUim9RG3NVSX8V3d_047ekcyvAq97FUZPMN8ixi9MwgeOaq67w67-x8nCSYj73tW6fk-dEkXYOrxgg");
+
+        asyncHttpClient.get(FordAPIUrl, requestHeaders,null, new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int i, Headers headers, JSON json) {
+                JSONObject jsonObject= json.jsonObject;
+
+                try{
+                    String Engine_Status=jsonObject.getJSONObject("vehicle").getJSONObject("vehicleStatus").getJSONObject("remoteStartStatus").getString("status");
+                    int MilesRemaining=jsonObject.getJSONObject("vehicle").getJSONObject("vehicleDetails").getJSONObject("batteryChargeLevel").getInt("distanceToEmpty");
+                    if (Engine_Status.equals("ENGINE_RUNNING")){
+                        ShowMessage(MilesRemaining);
+                    }
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+
+
+            }
+
+            @Override
+            public void onFailure(int i, Headers headers, String s, Throwable throwable) {
+                Log.e("StartEngineActivity","Failed to reach Ford API");
+                Toast.makeText(MainActivity.this, "Need Refresh Token", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+    }
+
+    private void ShowMessage(int Miles){
+        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+
+        builder.setMessage("Ford API Accessed:"+ "\n" +"Car Running and has " + Miles +" Miles To Empty");
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+            }
+        });
+
+        builder.create().show();
+
+    }
+
 }

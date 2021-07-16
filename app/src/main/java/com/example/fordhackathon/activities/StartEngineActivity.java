@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.Button;
 
 import com.codepath.asynchttpclient.AsyncHttpClient;
+import com.codepath.asynchttpclient.RequestHeaders;
 import com.codepath.asynchttpclient.RequestParams;
 import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
 import com.example.fordhackathon.MainActivity;
@@ -43,9 +44,13 @@ public class StartEngineActivity extends AppCompatActivity {
               //  QueryFordApi();
                // TestQuery();
               //  QueryFordApi("START");
-                btnStartEngine.setVisibility(View.INVISIBLE);
-                btnStopEngine.setVisibility(View.VISIBLE);
-                ShowMessage();
+              //  ThreadClass threadClass=new ThreadClass();
+              //  threadClass.run();
+                QueryFordApi();
+
+            //    btnStartEngine.setVisibility(View.INVISIBLE);
+             //   btnStopEngine.setVisibility(View.VISIBLE);
+             //   ShowMessage();
             }
         });
 
@@ -68,29 +73,6 @@ public class StartEngineActivity extends AppCompatActivity {
 
     private void TestQuery(){
 
-        Handler myhandler = new Handler();
-        myhandler.postDelayed(new Runnable() {      //user will only be in this activity for 2 seconds before being
-            @Override                               //sent to Login
-            public void run() {
-                OkHttpClient client = new OkHttpClient().newBuilder()
-                        .build();
-                Request request = new Request.Builder()
-                        .url("https://api.mps.ford.com/api/fordconnect/vehicles/v1/8a7f9fa878849d8a0179579d2f26043a")
-                        .method("GET", null)
-                        .addHeader("Application-Id", "afdc085b-377a-4351-b23e-5e1d35fb3700")
-                        .addHeader("Authorization", "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6IlMxUEZhdzdkR2s3bHNFQmEzUjVWMnRLSzVYYnNIWEJsemFXZGhjNUVNdW8ifQ.eyJpc3MiOiJodHRwczovL2RhaDJ2YjJjcHJvZC5iMmNsb2dpbi5jb20vOTE0ZDg4YjEtMzUyMy00YmY2LTliZTQtMWI5NmI0ZjZmOTE5L3YyLjAvIiwiZXhwIjoxNjI2Mzk4ODQ4LCJuYmYiOjE2MjYzOTc2NDgsImF1ZCI6ImMxZTRjMWEwLTI4NzgtNGU2Zi1hMzA4LTgzNmIzNDQ3NGVhOSIsImxvY2FsZSI6ImVuIiwiaWRwIjoiYjJjX0RwSzFPQW44ZFEiLCJtdG1JZCI6IjRmYWQyMzM4LTliMTQtNDIxNi05YWM0LWYwOTI0NGZjZjllZiIsInVzZXJHdWlkIjoidmE4ODFJako1aW5RelhLOUFKUTk4SXk4UTVBbVloWEhlYlg5azNuNk82QUpwYndsVm1PWG1KekoxbklaSFFhUyIsInN1YiI6IjcwMGJlMzhiLTI5ZmItNDliMy1iNDk2LWI1NjMwNTI2NDY0YyIsIm5vbmNlIjoiMTIzNDU2Iiwic2NwIjoiYWNjZXNzIiwiYXpwIjoiMzA5OTAwNjItOTYxOC00MGUxLWEyN2ItN2M2YmNiMjM2NThhIiwidmVyIjoiMS4wIiwiaWF0IjoxNjI2Mzk3NjQ4fQ.FJv7bAClrTriFMSUy43Df6vbZadYk-BMMtI5I9Jq5mAh292SadB3UYMYapeiFlhMbSFvUOuUBRekBpaebVGWXkusnEpF82eFyfdbPx-VE2QadnhpBatWZ1AEiAdQ2LW634DkV_wTk9cVGNQ9uUKWjW-3uuKdzZ1aeHfJKEvtb9YsuOT379MRHRhoCwRu6J6YONebpey2gI9qIZKjqAZz3_npPIJN9NaSBTI55ZMHCaVhL1e6AkKLlbCPec-tgQ903Zkm7ARGGOww8F1f6npeqJ_lqRNc4L-UHruwwEjvv1R6zEVBQ5PrCJEPI5rH43T30Fz0EwGf8p54sCFCvN7uSQ")
-                        .addHeader("api-version", "2020-06-01")
-                        .build();
-                try {
-                    Response response = client.newCall(request).execute();
-                    int x=4;
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-
-        }, 1000);
-
 
 
 
@@ -98,28 +80,22 @@ public class StartEngineActivity extends AppCompatActivity {
 
     private void QueryFordApi(){
         AsyncHttpClient asyncHttpClient=new AsyncHttpClient();
-        RequestParams requestParams=new RequestParams();
-        requestParams.put("Application-Id","afdc085b-377a-4351-b23e-5e1d35fb3700");
-        requestParams.put("api-version", "2020-06-01");
-        requestParams.put("Authorization", "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6IlMxUEZhdzdkR2s3bHNFQmEzUjVWMnRLSzVYYnNIWEJsemFXZGhjNUVNdW8ifQ.eyJpc3MiOiJodHRwczovL2RhaDJ2YjJjcHJvZC5iMmNsb2dpbi5jb20vOTE0ZDg4YjEtMzUyMy00YmY2LTliZTQtMWI5NmI0ZjZmOTE5L3YyLjAvIiwiZXhwIjoxNjI2Mzk4ODQ4LCJuYmYiOjE2MjYzOTc2NDgsImF1ZCI6ImMxZTRjMWEwLTI4NzgtNGU2Zi1hMzA4LTgzNmIzNDQ3NGVhOSIsImxvY2FsZSI6ImVuIiwiaWRwIjoiYjJjX0RwSzFPQW44ZFEiLCJtdG1JZCI6IjRmYWQyMzM4LTliMTQtNDIxNi05YWM0LWYwOTI0NGZjZjllZiIsInVzZXJHdWlkIjoidmE4ODFJako1aW5RelhLOUFKUTk4SXk4UTVBbVloWEhlYlg5azNuNk82QUpwYndsVm1PWG1KekoxbklaSFFhUyIsInN1YiI6IjcwMGJlMzhiLTI5ZmItNDliMy1iNDk2LWI1NjMwNTI2NDY0YyIsIm5vbmNlIjoiMTIzNDU2Iiwic2NwIjoiYWNjZXNzIiwiYXpwIjoiMzA5OTAwNjItOTYxOC00MGUxLWEyN2ItN2M2YmNiMjM2NThhIiwidmVyIjoiMS4wIiwiaWF0IjoxNjI2Mzk3NjQ4fQ.FJv7bAClrTriFMSUy43Df6vbZadYk-BMMtI5I9Jq5mAh292SadB3UYMYapeiFlhMbSFvUOuUBRekBpaebVGWXkusnEpF82eFyfdbPx-VE2QadnhpBatWZ1AEiAdQ2LW634DkV_wTk9cVGNQ9uUKWjW-3uuKdzZ1aeHfJKEvtb9YsuOT379MRHRhoCwRu6J6YONebpey2gI9qIZKjqAZz3_npPIJN9NaSBTI55ZMHCaVhL1e6AkKLlbCPec-tgQ903Zkm7ARGGOww8F1f6npeqJ_lqRNc4L-UHruwwEjvv1R6zEVBQ5PrCJEPI5rH43T30Fz0EwGf8p54sCFCvN7uSQ");
+        RequestHeaders requestHeaders=new RequestHeaders();
+        requestHeaders.put("Application-Id","afdc085b-377a-4351-b23e-5e1d35fb3700");
+        requestHeaders.put("api-version", "2020-06-01");
+        requestHeaders.put("Authorization", "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6IlMxUEZhdzdkR2s3bHNFQmEzUjVWMnRLSzVYYnNIWEJsemFXZGhjNUVNdW8ifQ.eyJpc3MiOiJodHRwczovL2RhaDJ2YjJjcHJvZC5iMmNsb2dpbi5jb20vOTE0ZDg4YjEtMzUyMy00YmY2LTliZTQtMWI5NmI0ZjZmOTE5L3YyLjAvIiwiZXhwIjoxNjI2NDA4MjYwLCJuYmYiOjE2MjY0MDcwNjAsImF1ZCI6ImMxZTRjMWEwLTI4NzgtNGU2Zi1hMzA4LTgzNmIzNDQ3NGVhOSIsImxvY2FsZSI6ImVuIiwiaWRwIjoiYjJjX0RwSzFPQW44ZFEiLCJtdG1JZCI6IjRmYWQyMzM4LTliMTQtNDIxNi05YWM0LWYwOTI0NGZjZjllZiIsInVzZXJHdWlkIjoidmE4ODFJako1aW5RelhLOUFKUTk4SXk4UTVBbVloWEhlYlg5azNuNk82QUpwYndsVm1PWG1KekoxbklaSFFhUyIsInN1YiI6IjcwMGJlMzhiLTI5ZmItNDliMy1iNDk2LWI1NjMwNTI2NDY0YyIsIm5vbmNlIjoiMTIzNDU2Iiwic2NwIjoiYWNjZXNzIiwiYXpwIjoiMzA5OTAwNjItOTYxOC00MGUxLWEyN2ItN2M2YmNiMjM2NThhIiwidmVyIjoiMS4wIiwiaWF0IjoxNjI2NDA3MDYwfQ.X-CS336rGDVaiDUbFQAIQt9yWjpqEBt9ESKnggb7-nTi_0OtPWwIuGxYap3j1Z9M0u7iBN7v6bQLG-NBLWZf7JQPeBbW0x-FzhWg4tfkbkKbHRGHsQr-pdkd2NtCSNZTx0nN5xuGVV_YNC89RzFlOotBxvT7YE2wgrOGxcKW6dFTLH_hJZIzMdqnCnHeCd2XKSfT2Ah56bjmPq5fSxvImc3aoBq3dmJiojXwfXUeQJGY_gJhfAFAz-kj1O5SBTBWnmtaMcyUiPilthXm2D1nCg0xRWOQln0Y29gfeK_q-2EW9vBK0OVCwItKqbTjQRLamM_64IjIxMP1kK59WaCW8g");
 
-
-
-        asyncHttpClient.get(FordAPIUrl, requestParams, new JsonHttpResponseHandler() {
+        asyncHttpClient.get(FordAPIUrl, requestHeaders,null, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int i, Headers headers, JSON json) {
                 JSONObject jsonObject= json.jsonObject;
 
                 try{
-                   // if (MainActivity.EngineRunning==true){
-
-                //    }
-                 //   else{
-
-
-                  //  }
-    int x=4;
-
+                    String Engine_Status=jsonObject.getJSONObject("vehicle").getJSONObject("vehicleStatus").getJSONObject("remoteStartStatus").getString("status");
+                    int MilesRemaining=jsonObject.getJSONObject("vehicle").getJSONObject("vehicleDetails").getJSONObject("batteryChargeLevel").getInt("distanceToEmpty");
+                    if (Engine_Status.equals("ENGINE_RUNNING")){
+                            ShowMessage(MilesRemaining);
+                    }
                 }catch (Exception e){
                     e.printStackTrace();
                 }
@@ -133,13 +109,12 @@ public class StartEngineActivity extends AppCompatActivity {
             }
         });
 
-
     }
 
-    private void ShowMessage(){
+    private void ShowMessage(int Miles){
         AlertDialog.Builder builder = new AlertDialog.Builder(StartEngineActivity.this);
 
-        builder.setMessage("Car Started. See Climate Settings to Adjust Temperature");
+        builder.setMessage("Car Running and has " + Miles +" Miles To Empty");
         builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
@@ -151,7 +126,6 @@ public class StartEngineActivity extends AppCompatActivity {
 
 
     }
-
 
 
 

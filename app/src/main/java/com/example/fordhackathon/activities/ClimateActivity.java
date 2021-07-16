@@ -264,10 +264,10 @@ public class ClimateActivity extends AppCompatActivity {
                         RealCurrentTemp = Object.getDouble("current_temperature_c");
                     }
 
+                    MainActivity.CurrentTempInside=RealCurrentTemp;
                    tvInsideTemp.setText((int)RealCurrentTemp+MainActivity.CurrentScale);
 
                     if ((int)RealCurrentTemp==(int)MainActivity.SetTemperatureInsideCar){
-                        MainActivity.CurrentTempInside=MainActivity.SetTemperatureInsideCar;
                         mCountDownTimer.cancel();
                         ShowSnackBar();
                         return;

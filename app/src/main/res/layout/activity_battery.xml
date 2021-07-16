@@ -4,38 +4,202 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/AppGray"
     tools:context=".activities.BatteryActivity">
 
-    <ProgressBar
-        android:id="@+id/BatteryProgressBar"
-        style="?android:attr/progressBarStyleHorizontal"
-        android:layout_width="191dp"
-        android:layout_height="49dp"
-        android:layout_marginStart="52dp"
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardView3"
+        android:layout_width="170dp"
+        android:layout_height="150dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        app:cardCornerRadius="15dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/textView10"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="43dp"
+            android:layout_marginTop="5dp"
+            android:fontFamily="@font/hind_vadodara_bold"
+            android:text="Current Time"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/tvTime"
+            android:layout_width="143dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="60dp"
+            android:fontFamily="@font/hind_vadodara_bold"
+            android:text="10:10 PM"
+            android:textAlignment="center"
+            android:textSize="34sp" />
+
+        <ImageView
+            android:id="@+id/ivClock"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginStart="7dp"
+            android:layout_marginTop="7dp"
+            app:srcCompat="@drawable/clockjpg" />
+
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cvChARGE"
+        android:layout_width="170dp"
+        android:layout_height="150dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        app:cardCornerRadius="15dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toEndOf="@+id/cardView3"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/textView12"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="70dp"
+            android:layout_marginTop="7dp"
+            android:fontFamily="@font/hind_vadodara_bold"
+            android:text="Status"
+            android:textSize="20sp" />
+
+        <ImageView
+            android:id="@+id/imageView9"
+            android:layout_width="50dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="7dp"
+            android:layout_marginTop="4dp"
+            app:srcCompat="@drawable/batterychargingg" />
+
+        <TextView
+            android:id="@+id/tvChargeStatus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="60dp"
+            android:fontFamily="@font/hind_vadodara_bold"
+            android:text="Charging"
+            android:textAlignment="center"
+            android:textColor="#4CAF50"
+            android:textSize="34sp" />
+
+        <TextView
+            android:id="@+id/tvResume"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="40dp"
+            android:layout_marginTop="110dp"
+            android:fontFamily="@font/hind_vadodara_bold"
+            android:text="Resume"
+            android:textColor="#CDDC39"
+            android:textSize="24sp" />
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardView5"
+        android:layout_width="300dp"
+        android:layout_height="100dp"
+        android:layout_marginTop="40dp"
+        app:cardCornerRadius="15dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.495"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cvChARGE">
+
+        <ProgressBar
+            android:id="@+id/BatteryProgressBar"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="271dp"
+            android:layout_height="43dp"
+            android:layout_marginStart="10dp"
+            android:progressTint="#4CAF50" />
+
+        <TextView
+            android:id="@+id/tvChargeWithBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="50dp"
+            android:fontFamily="@font/hind_vadodara_bold"
+            android:textColor="#4CAF50"
+            android:textSize="34sp" />
+
+        <TextView
+            android:id="@+id/textView21"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="130dp"
+            android:layout_marginTop="48dp"
+            android:fontFamily="@font/hind_vadodara_bold"
+            android:text="Battery"
+            android:textSize="34sp" />
+    </androidx.cardview.widget.CardView>
+
+    <ImageView
+        android:id="@+id/imageView10"
+        android:layout_width="405dp"
+        android:layout_height="219dp"
+        android:scaleType="fitCenter"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/cardView6"
+        app:layout_constraintVertical_bias="1.0"
+        app:srcCompat="@drawable/fordedge" />
 
-    <TextView
-        android:id="@+id/tvBatteryPercent"
-        android:layout_width="175dp"
-        android:layout_height="49dp"
-        android:layout_marginStart="60dp"
-        android:layout_marginTop="24dp"
-        android:text="20%"
-        android:textAlignment="center"
-        android:textSize="34sp"
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardView6"
+        android:layout_width="300dp"
+        android:layout_height="150dp"
+        android:layout_marginTop="16dp"
+        app:cardCornerRadius="15dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/BatteryProgressBar" />
+        app:layout_constraintTop_toBottomOf="@+id/cardView5">
 
-    <TextView
-        android:id="@+id/textView10"
-        android:layout_width="211dp"
-        android:layout_height="76dp"
-        android:fontFamily="@font/hind_vadodara_bold"
-        android:text="10:00 PM"
-        android:textAlignment="center"
-        android:textSize="34sp"
-        tools:layout_editor_absoluteX="71dp"
-        tools:layout_editor_absoluteY="57dp" />
+        <TextView
+            android:id="@+id/textView19"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:fontFamily="@font/hind_vadodara_bold"
+            android:text="Off-Peak Hours In Your Area"
+            android:textSize="22sp" />
+
+        <TextView
+            android:id="@+id/textView20"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="50dp"
+            android:layout_marginTop="40dp"
+            android:fontFamily="@font/hind_vadodara_bold"
+            android:text="12AM-6:30AM"
+            android:textSize="34sp" />
+
+        <Switch
+            android:id="@+id/PeakSwitch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="25dp"
+            android:layout_marginTop="105dp" />
+
+        <TextView
+            android:id="@+id/textView23"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="80dp"
+            android:layout_marginTop="100dp"
+            android:fontFamily="@font/hind_vadodara_bold"
+            android:text="Hold Until Off-Hours"
+            android:textSize="23sp" />
+    </androidx.cardview.widget.CardView>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
