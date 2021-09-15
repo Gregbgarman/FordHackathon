@@ -1,6 +1,6 @@
 # FordHackathon
 -------------------------------------------------------------------------------------------------------------------------------
-<img src="https://github.com/Gregbgarman/Film_Fanatic/blob/master/FFgoodimage2.PNG" width=250> &nbsp;&nbsp; &nbsp;  <img src="https://github.com/Gregbgarman/Film_Fanatic/blob/master/FFgoodimage4.PNG" width=250> &nbsp;&nbsp; &nbsp;
+<img src="https://github.com/Gregbgarman/Film_Fanatic/blob/master/FFgoodimage2.PNG" width=250> &nbsp;&nbsp; &nbsp;  <img src="https://github.com/Gregbgarman/Film_Fanatic/blob/master/FFgoodimage4.PNG" width=250> &nbsp;&nbsp; &nbsp; <img src="https://github.com/Gregbgarman/Film_Fanatic/blob/master/FFgoodimage3.PNG" width=250><br>
 
 
 
